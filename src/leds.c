@@ -11,9 +11,10 @@
 void leds__init() {
 #if LEDS == ON
     // setting LEDs as output pins
-    pinMode(RED, OUTPUT);
-    pinMode(GREEN, OUTPUT);
-    off();
+    DDRC = 0xFF;
+    //pinMode(RED, OUTPUT);
+    //pinMode(GREEN, OUTPUT);
+    leds_off();
 #endif
 }
 void leds__off() {
