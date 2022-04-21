@@ -1,18 +1,28 @@
 #include "shared.h"
+#include "config.h"
+
 
 #include "leds.h"
+#include "sevenseg.h"
+#include "oled.h"
 
-int main() {
+
+/* ---------- setup ---------- */
+void main() {
+    // --- initialize all modules ---
     leds__init();
-    leds__both();
+    ss__init();
+    oled__init();
+    // track__init();
+    power__init();
 
+    // --- test values ---
+    ss__set_value(103);
 
-    // for (;;) {
-    //     _delay_ms(1000);
-    //     leds__green();
-    //     _delay_ms(1000);
-    //     leds__red();
-    // }
+    // --- shared loop variables ---
 
-    return 0;
+    // loop
+    for (int loop_n = 0;; loop_n++) {
+        _delay_ms(LOOP_DELAY_MS);
+    }
 }

@@ -1,6 +1,6 @@
 //
 //  i2c.h
-//  
+//
 //
 //  Created by NullWolf on 09/07/17.
 //  Copyright © 2017 NullWolf. All rights reserved.
@@ -13,26 +13,25 @@
 static bool masterMode;
 
 // MODS TO THIS CODE BY DM FOR 16MHz CLOCK 4/4/22
-void i2c_init(void)
-{
-    //TWSR &= ~((1 << TWPS1) | (1 << TWPS0)); // pre-scalar 1
-    TWSR |=  (1<< TWPS1);  // This code changed by DM 4/4/22
-    TWSR &=  ~(1<< TWPS0); // pre-scaler = 16 
-   // TWBR = ((F_CPU / F_I2C) - 16) / 2; // baud rate factor 12
-     TWBR = ((F_CPU / F_I2C) - 16) /32; // baud rate factor 19.5 DM 4/4/22
+void i2c_init(void) {
+    // TWSR &= ~((1 << TWPS1) | (1 << TWPS0)); // pre-scalar 1
+    TWSR |= (1 << TWPS1);   // This code changed by DM 4/4/22
+    TWSR &= ~(1 << TWPS0);  // pre-scaler = 16
+                            // TWBR = ((F_CPU / F_I2C) - 16) / 2; // baud rate factor 12
+    TWBR = ((F_CPU / F_I2C) - 16) / 32;  // baud rate factor 19.5 DM 4/4/22
 }
 
-uint8_t i2c_tx_start(bool mode)
-{
+uint8_t i2c_tx_start(bool mode) {
     int8_t status = 0;
-    masterMode = mode; // set global state of R/W bit
+    masterMode    = mode;  // set global state of R/W bit
 
     /* clear interrupt flag, issue start command (gain control of bus as
        master), enable I2C (SCL and SDA are automatically reconfigured) */
-    TWCR |=  (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+    TWCR |= (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
 
     /* wait until start transmitted */
-    while (!(TWCR & (1 << TWINT)));
+    while (!(TWCR & (1 << TWINT)))
+        ;
 
     switch (TWSR & 0xF8) {
         /* start condition sent from master */
@@ -53,18 +52,18 @@ uint8_t i2c_tx_start(bool mode)
     return status;
 }
 
-uint8_t i2c_tx_address(uint8_t address)
-{
+uint8_t i2c_tx_address(uint8_t address) {
     int8_t status = 0;
 
     TWDR = (address << 1) | masterMode;
     /* clear start command to release bus as master */
     TWCR &= ~(1 << TWSTA);
     /* clear interrupt flag */
-    TWCR |=  (1 << TWINT);
+    TWCR |= (1 << TWINT);
 
     /* wait until address transmitted */
-    while (!(TWCR & (1 << TWINT)));
+    while (!(TWCR & (1 << TWINT)))
+        ;
 
     if (masterMode == MASTER_TRANSMITTER) {
         switch (TWSR & 0xF8) {
@@ -73,8 +72,8 @@ uint8_t i2c_tx_address(uint8_t address)
                 status = TRANSMISSION_SUCCESS;
                 break;
 
-           /* address|write sent and NACK returned slave */
-           case 0x20:
+            /* address|write sent and NACK returned slave */
+            case 0x20:
                 status = TRANSMISSION_ERROR;
                 break;
 
@@ -112,14 +111,14 @@ uint8_t i2c_tx_address(uint8_t address)
     return status;
 }
 
-uint8_t i2c_tx_byte(uint8_t byteData)
-{
+uint8_t i2c_tx_byte(uint8_t byteData) {
     int8_t status = 0;
-    TWDR  = byteData; // load data buffer with data to be transmitted
-    TWCR |= (1 << TWINT); // clear interrupt flag
+    TWDR          = byteData;  // load data buffer with data to be transmitted
+    TWCR |= (1 << TWINT);      // clear interrupt flag
 
     /* wait until data transmitted */
-    while (!(TWCR & (1 << TWINT)));
+    while (!(TWCR & (1 << TWINT)))
+        ;
 
     /* retrieve transmission status codes */
     switch (TWSR & 0xF8) {
@@ -146,9 +145,8 @@ uint8_t i2c_tx_byte(uint8_t byteData)
     return status;
 }
 
-bool i2c_timeout(void)
-{
-    uint8_t time = TIMEOUT;
+bool i2c_timeout(void) {
+    uint8_t time  = TIMEOUT;
     int8_t status = BUS_DISCONNECTED;
 
     while (time-- > 0) {
@@ -162,14 +160,13 @@ bool i2c_timeout(void)
     return status;
 }
 
-uint8_t i2c_rx_byte(bool response)
-{
+uint8_t i2c_rx_byte(bool response) {
     int8_t status;
 
     if (response == ACK) {
-        TWCR |= (1 << TWEA); // generate ACK
+        TWCR |= (1 << TWEA);  // generate ACK
     } else {
-        TWCR &= ~(1 << TWEA); // generate NACK
+        TWCR &= ~(1 << TWEA);  // generate NACK
     }
 
     /* clear interrupt flag */
@@ -205,10 +202,10 @@ uint8_t i2c_rx_byte(bool response)
     return status;
 }
 
-void i2c_tx_stop(void)
-{
+void i2c_tx_stop(void) {
     /* clear interrupt flag, issue stop command (cleared automatically) */
     TWCR |= (1 << TWINT) | (1 << TWSTO);
 
-    while (!(TWCR & (1 << TWSTO))); // wait until stop transmitted
+    while (!(TWCR & (1 << TWSTO)))
+        ;  // wait until stop transmitted
 }

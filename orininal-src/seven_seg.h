@@ -3,16 +3,16 @@
 
 #include "shared.h"
 
-namespace seven_seg {
+namespace seven__seg {
 
 typedef enum {
     none,
-} none_t;
+} ss_none_t;
 
-void init();
+void ss_init();
 
-void refresh();
-void set_value(inches_t);
-void set_value(none_t);
+void ss_refresh();
+void ss_set_value(inches_t);
+void ss_set_value(none_t);
 
-}  // namespace seven_seg
+}  // namespace seven__seg

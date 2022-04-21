@@ -6,6 +6,8 @@
     "files.associations": {
         "SConstruct": "python",
         "leds.h": "c",
-        "delay.h": "c"
+        "delay.h": "c",
+        "shared.h": "c",
+        "i2c.h": "c"
     },
 }

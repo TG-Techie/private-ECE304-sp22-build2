@@ -104,7 +104,7 @@ void track__init(track__tracker_t* const tracker) {
     debug_println("done");
 }
 
-inches_t new_dist(track__tracker_t* tracker, inches_t dist) {
+inches_t track__new_dist(track__tracker_t* tracker, inches_t dist) {
     // --- data detection ---
     track__status_t prev_stat = tracker->status;
 

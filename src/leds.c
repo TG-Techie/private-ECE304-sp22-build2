@@ -1,7 +1,7 @@
 /* leds.c */
 
 #include "leds.h"
-
+#include "config.h"
 
 /*
  * RED = arduino A0 = pc0 (pin 23)
@@ -11,11 +11,9 @@
 #define RED_PINMASK   (1 << 1)
 #define GREEN_PINMASK (1 << 0)
 
-#define pinMode(...)
-#define analogWrite(...)
 
 void leds__init() {
-#if LEDS == ON
+#if ENABLE_LEDS == ON
     // setting LEDs as output pins
     DDRC = RED_PINMASK | GREEN_PINMASK;  // makes first and second pins of PORTC outputs
 

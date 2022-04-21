@@ -6,21 +6,22 @@
 //  Copyright © 2017 NullWolf. All rights reserved.
 //
 
+#include <stdbool.h>
+
 
 #ifndef i2c_h
-#define i2c_h
+#    define i2c_h
 
-#define F_I2C 25000L
-#define TRANSMISSION_SUCCESS -1
-#define TRANSMISSION_ERROR -2
-#define BUS_CONNECTED -3
-#define BUS_DISCONNECTED -4
-#define MASTER_TRANSMITTER 0
-#define MASTER_RECEIVER 1
-#define ACK 0
-#define TIMEOUT 50
+#    define F_I2C                25000L
+#    define TRANSMISSION_SUCCESS -1
+#    define TRANSMISSION_ERROR   -2
+#    define BUS_CONNECTED        -3
+#    define BUS_DISCONNECTED     -4
+#    define MASTER_TRANSMITTER   0
+#    define MASTER_RECEIVER      1
+#    define ACK                  0
+#    define TIMEOUT              50
 
-typedef uint8_t bool;
 
 /*
  * Initialize I2C as bus master
