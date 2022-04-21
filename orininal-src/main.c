@@ -1,8 +1,8 @@
 
 
 
-#include "Arduino.h"
-#include "HardwareSerial.h"
+// #include "Arduino.h"
+// #include "HardwareSerial.h"
 
 
 // -- data types and config --
@@ -34,12 +34,12 @@
 
 
 /* -------------------------------- global variables -------------------------------- */
-track::tracker_t tracker;
+track__tracker_t tracker;
 int loop_number = 0;
 
 // only update the oled if the status changes
 #if OLED == ON
-track::status_t last_status = track::out_of_range;
+track__status_t last_status = track__out_of_range;
 #endif
 
 #if SMOOTHING == ON
@@ -74,7 +74,7 @@ void setup() {
 #endif
 
     sonar::init();
-    track::init(&tracker);
+    track__init(&tracker);
 
 #if SEVEN_SEG == ON
     seven_seg::init();
@@ -125,7 +125,7 @@ void loop() {
 #endif  // SMOOTHING
 
         // step 3: update tracker
-        track::new_dist(&tracker, dist);
+        track__new_dist(&tracker, dist);
 
 
         // step 4: update the oled display
@@ -137,15 +137,15 @@ void loop() {
 #endif  // OLED
 
 
-        if (tracker.status == track::out_of_range) {
+        if (tracker.status == track__out_of_range) {
             leds::off();
 #if SEVEN_SEG == ON
             seven_seg::set_value(seven_seg::none);
 #endif  // SEVEN_SEG
         } else {
-            if (tracker.status == track::just_right) leds::off();
-            if (tracker.status == track::too_close) leds::red();
-            if (tracker.status == track::too_far) leds::green();
+            if (tracker.status == track__just_right) leds::off();
+            if (tracker.status == track__too_close) leds::red();
+            if (tracker.status == track__too_far) leds::green();
 #if SEVEN_SEG == ON
             seven_seg::set_value(dist);
 #endif  // SEVEN_SEG
@@ -156,7 +156,7 @@ void loop() {
         debug_print("feet: ");
         debug_print(dist / 12);
         debug_print(", \tstatus: ");
-        debug_print(track::status_to_string(tracker.status));
+        debug_print(track__status_to_string(tracker.status));
         debug_println();
     }
 }

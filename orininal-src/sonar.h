@@ -8,15 +8,11 @@
 #define INVALID_SONAR_READ -1
 
 /// @brief related sonar fuctions
-namespace sonar {
 
 /// @brief Initialize the sonar sensor
-void init();
+void sonar__init();
 
 /// @brief Read the sonar sensor
-float read();
+float sonar__read();
 
-float read_raw_cm();
-
-
-}  // namespace sonar
+float sonar__read_raw_cm();

@@ -21,11 +21,11 @@
 #define oled_delay_duration_ms 100  // ms, duration of the delay in milliseconds
 
 /* features */
-#define SEVEN_SEG ON  // on/off,
-#define LEDS      ON  // on/off,
-#define SMOOTHING ON  // on/off,
-#define OLED      ON  // on/off,
-#define POWER     ON  // on/off,
+#define SEVEN_SEG OFF  // on/off,
+#define LEDS      OFF  // on/off,
+#define SMOOTHING OFF  // on/off,
+#define OLED      OFF  // on/off,
+#define POWER     OFF  // on/off,
 
 #define LOOP_ITEATIONS_BETWEEN_SONAR_READS 2  // whole number,
 

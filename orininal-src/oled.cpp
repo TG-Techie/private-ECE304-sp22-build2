@@ -49,7 +49,7 @@ void init() {
     debug_println("... done (oled::init)");
 }
 
-void update(track::tracker_t* tracker) {
+void update(track__tracker_t* tracker) {
     static const inches_t ls[] = {1, 2, 3, 4};
     refresh(tracker->total_event_count, tracker->unsafe_event_count, tracker->closest_events, 4);
 }

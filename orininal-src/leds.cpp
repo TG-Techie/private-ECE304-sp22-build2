@@ -1,15 +1,13 @@
 // interface
 #include "leds.h"
 
-#include "Arduino.h"
+// #include "Arduino.h"
 
 #define RED   A0
 #define GREEN A1
 
 
-namespace leds {
-
-void init() {
+void leds__init() {
 #if LEDS == ON
     // setting LEDs as output pins
     pinMode(RED, OUTPUT);
@@ -17,32 +15,31 @@ void init() {
     off();
 #endif
 }
-void off() {
+void leds__off() {
 #if LEDS == ON
     // setting LEDs as low (turning them off)
     analogWrite(RED, 0);
     analogWrite(GREEN, 0);
 #endif
 }
-void green() {
+void leds__green() {
 #if LEDS == ON
     // only turn on green LED
     analogWrite(RED, 0);
     analogWrite(GREEN, 255);
 #endif
 }
-void red() {
+void leds__red() {
 #if LEDS == ON
     // only turn on red LED
     analogWrite(RED, 255);
     analogWrite(GREEN, 0);
 #endif
 }
-void both() {
+void leds__both() {
 #if LEDS == ON
     // turn on both LEDs
     analogWrite(RED, 255);
     analogWrite(GREEN, 255);
 #endif
 }
-}  // namespace leds

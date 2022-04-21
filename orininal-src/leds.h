@@ -2,19 +2,16 @@
 
 #include "shared.h"
 
-namespace leds {
 /** @brief Initialize the leds.
  *
  * basically just set the pin modes and turn them off
  */
-void init();
+void leds__init();
 
-void off();
+void leds__off();
 
-void green();
+void leds__green();
 
-void red();
+void leds__red();
 
-void both();
-
-}  // namespace leds
+void leds__both();
