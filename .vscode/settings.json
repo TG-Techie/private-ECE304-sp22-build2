@@ -10,6 +10,7 @@
         "shared.h": "c",
         "i2c.h": "c",
         "power.h": "c",
-        "oled.h": "c"
+        "oled.h": "c",
+        "sonar.h": "c"
     },
 }

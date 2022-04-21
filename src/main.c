@@ -6,18 +6,20 @@
 #include "sevenseg.h"
 #include "oled.h"
 #include "power.h"
+#include "sonar.h"
 
 
 /* ---------- setup ---------- */
 int main() {
-    // --- initialize all modules ---
+    // --- init oled and power for life signs then sleep/wake ---
     oled__init();
     power__init();
     power__wait_for_wake();
-    // // rest
+
+    // --- initialize all modules ---
     leds__init();
     ss__init();
-    // sonar__init();
+    sonar__init();
     // track__init();
 
 
@@ -31,8 +33,8 @@ int main() {
     for (int loop_n = 0;; loop_n++) {
         ss__refresh();
 
-        // if (loop_n % 20 == 0) {
-        //     oled__refresh(loop_n, loop_n, NULL, 0);
+        // if (loop_n % LOOP_SONAR_REFRESH_EVERY_N_LOOPS == 0) {
+        //     ss__set_value(sonar__read());
         // }
     }
 

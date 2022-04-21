@@ -8,6 +8,7 @@
 #define ENABLE_SEVENSEG ON
 #define ENABLE_OLED     ON
 #define ENABLE_POWER    OFF
+#define ENABLE_SONAR    ON
 
 
 // --- loop variables ---

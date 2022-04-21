@@ -90,7 +90,7 @@ uint8_t i2c_tx_byte(uint8_t byteData);
  * Returns:
  *     Timeout status
  */
-bool i2c_timeout(void);
+int8_t i2c_timeout(void);
 
 /*
  * Receive byte of data
