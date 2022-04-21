@@ -1,19 +1,19 @@
 /* leds.c */
 
-#define F_CPU 16000000UL
-#include <util/delay.h>
-#include <avr/io.h>
 #include "leds.h"
 
-#define RED A0
+#define RED   A0
 #define GREEN A1
+
+#define pinMode(...)
+#define analogWrite(...)
 
 void leds__init() {
 #if LEDS == ON
     // setting LEDs as output pins
     pinMode(RED, OUTPUT);
     pinMode(GREEN, OUTPUT);
-    off();
+    leds__off();
 #endif
 }
 void leds__off() {

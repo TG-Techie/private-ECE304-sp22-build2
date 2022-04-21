@@ -5,7 +5,7 @@
 {
     "files.associations": {
         "SConstruct": "python",
-        "*.ino": "cpp",
-        "arduino.h": "c"
+        "leds.h": "c",
+        "delay.h": "c"
     },
 }

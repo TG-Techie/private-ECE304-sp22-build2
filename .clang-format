@@ -29,6 +29,7 @@ AllowAllConstructorInitializersOnNextLine: 'true'
 AllowAllParametersOfDeclarationOnNextLine: 'true'
 AllowShortBlocksOnASingleLine: 'false'
 AllowShortFunctionsOnASingleLine: InlineOnly
+SortIncludes: false
 BinPackArguments: 'false'
 BinPackParameters: 'false'
 ColumnLimit: '98'

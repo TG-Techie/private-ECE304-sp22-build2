@@ -12,7 +12,7 @@ CLOCKSPEED = 16000000
 # Use usbtiny for the Sparkfun Pocket Programmer; Arduino for Arduino Uno
 PROGRAMMER = usbtiny
 
-build:	main.hex
+build:	clean	main.hex
 
 main.hex: main.elf
 	rm -f main.hex
@@ -27,4 +27,4 @@ flash:	build
 	avrdude -c $(PROGRAMMER) -p atmega328p -U flash:w:main.hex:i -C avrdude.conf
 
 clean:
-	@echo "make clean not yet implemented"
+	rm -f main.hex main.elf
