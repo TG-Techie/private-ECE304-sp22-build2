@@ -14,7 +14,7 @@ PROGRAMMER = usbtiny
 
 build:	clean	main.hex
 
-main.hex: clean	main.elf 
+main.hex:	clean	main.elf 
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
 	avr-size --format=avr --mcu=atmega328p main.elf
 
