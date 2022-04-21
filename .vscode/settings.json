@@ -4,6 +4,8 @@
 // installed.
 {
     "files.associations": {
-        "*.ino": "cpp"
+        "SConstruct": "python",
+        "*.ino": "cpp",
+        "arduino.h": "c"
     },
 }
