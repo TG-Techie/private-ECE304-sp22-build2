@@ -1,0 +1,37 @@
+{
+  "commands": [
+    {
+      "command": "commands.refresh",
+      "text": "$(sync)",
+      "tooltip": "Refresh commands",
+      "color": "#FFCC00"
+    },
+    {
+      "arguments": [
+        "build"
+      ],
+      "command": "terminals.runTerminalByName",
+      "text": "$(file-code) build",
+      "tooltip": "Open commands",
+      "color": "#FFCC00"
+    },
+    {
+      "arguments": [
+        "upload"
+      ],
+      "command": "terminals.runTerminalByName",
+      "text": "$(arrow-up) upload",
+      "tooltip": "Open commands",
+      "color": "#FFCC00"
+    },
+    {
+      "arguments": [
+        "clean"
+      ],
+      "command": "terminals.runTerminalByName",
+      "text": "clean",
+      "tooltip": "Open commands",
+      "color": "#FFCC00"
+    }
+  ]
+}

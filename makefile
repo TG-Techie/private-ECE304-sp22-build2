@@ -25,3 +25,6 @@ main.elf:
 
 flash:	begin
 	avrdude -c $(PROGRAMMER) -p atmega328p -U flash:w:main.hex:i
+
+clean:
+	@echo "make clean not yet implemented"
