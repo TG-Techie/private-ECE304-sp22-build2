@@ -17,3 +17,12 @@ pb2, pb1, pb0
 - (D10) One's place on seven seg
 - (D9) left most seven seg digit
 - (D8) 10's place on seven seg
+
+switch:
+
+- Pin 25, PC2, (A2)
+
+OLED:
+
+- Pin 27, PC4, (SDA)
+- Pin 28, PC5, (SCL)
