@@ -9,16 +9,18 @@
 
 
 void power__init() {
+#if ENABLE_POWER == ON
     // set the pin as an input, pull-down added in hardware
     DDRC &= ~SWITCH_PINMASK;  // Setting switch as an input
-    PORTC = SWITCH_PINMASK;   // set pullup on PC2
-    // pinMode(SWITCH, INPUT);
+    // PORTC |= SWITCH_PINMASK;  // set pullup on PC2
+// pinMode(SWITCH, INPUT);
+#endif
 }
 
 void power__wait_for_wake() {
+#if ENABLE_POWER == ON
     // wait for the switch to be pressed
     while ((PINC & SWITCH_PINMASK) == 0) {
     }
-    // while (digitalRead(SWITCH) == LOW) {
-    // }
+#endif
 }

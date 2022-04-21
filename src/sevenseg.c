@@ -9,11 +9,9 @@
 #include "avr/io.h"
 #include "util/delay.h"
 
-#define DIG2          PB2  // enables DIG2. ATmega328P pin PB2/Arduino Uno pin 10
-#define DIG3          PB1  // enables DIG3. ATmega328P pin PB1/Arduino Uno pin 9
-#define DIG4          PB0  // enables DIG4. ATmega328P pin PB0/Arduino Uno pin 8
-#define REFRESH_DELAY 5    // delay in ms for seven_seg refresh
-
+#define DIG2 PB2  // enables DIG2. ATmega328P pin PB2/Arduino Uno pin 10
+#define DIG3 PB1  // enables DIG3. ATmega328P pin PB1/Arduino Uno pin 9
+#define DIG4 PB0  // enables DIG4. ATmega328P pin PB0/Arduino Uno pin 8
 
 // -- prototypes --
 void disp_dist(uint8_t in);
@@ -117,4 +115,5 @@ void disp_none() {
         PORTB = (1 << DIG2) | (1 << DIG3);
         _delay_ms(REFRESH_DELAY);
     }
+    PORTB = 0;
 }

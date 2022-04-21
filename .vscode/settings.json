@@ -8,6 +8,8 @@
         "leds.h": "c",
         "delay.h": "c",
         "shared.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "power.h": "c",
+        "oled.h": "c"
     },
 }

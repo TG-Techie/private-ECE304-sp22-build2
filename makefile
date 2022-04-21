@@ -19,11 +19,14 @@ main.hex:	clean	main.elf
 	avr-size --format=avr --mcu=atmega328p main.elf
 
 main.elf:
-	avr-gcc -Wall -Os -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
+	avr-gcc -Wall -O3 -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
 
 
 flash:	build
 	avrdude -c $(PROGRAMMER) -p atmega328p -U flash:w:main.hex:i -C avrdude.conf
+
+erase:
+	avrdude -c $(PROGRAMMER) -p atmega328p -e -C avrdude.conf
 
 clean:
 	- rm -f main.hex main.elf

@@ -5,24 +5,36 @@
 #include "leds.h"
 #include "sevenseg.h"
 #include "oled.h"
+#include "power.h"
 
 
 /* ---------- setup ---------- */
-void main() {
+int main() {
     // --- initialize all modules ---
+    oled__init();
+    power__init();
+    power__wait_for_wake();
+    // // rest
     leds__init();
     ss__init();
-    oled__init();
+    // sonar__init();
     // track__init();
-    power__init();
+
 
     // --- test values ---
     ss__set_value(103);
+    leds__both();
+    oled__refresh(10, 3, NULL, 0);
+
 
     // --- shared loop variables ---
-
-    // loop
     for (int loop_n = 0;; loop_n++) {
-        _delay_ms(LOOP_DELAY_MS);
+        ss__refresh();
+
+        // if (loop_n % 20 == 0) {
+        //     oled__refresh(loop_n, loop_n, NULL, 0);
+        // }
     }
+
+    return 0;
 }
