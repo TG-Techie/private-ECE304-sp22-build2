@@ -14,8 +14,7 @@ PROGRAMMER = usbtiny
 
 build:	clean	main.hex
 
-main.hex: main.elf
-	rm -f main.hex
+main.hex: clean	main.elf 
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
 	avr-size --format=avr --mcu=atmega328p main.elf
 
@@ -27,4 +26,4 @@ flash:	build
 	avrdude -c $(PROGRAMMER) -p atmega328p -U flash:w:main.hex:i -C avrdude.conf
 
 clean:
-	rm -f main.hex main.elf
+	- rm -f main.hex main.elf
