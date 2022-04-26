@@ -24,7 +24,7 @@ int main() {
 
 
     // --- test values ---
-    ss__set_value(103);
+    ss__set_value(0);
     leds__both();
     oled__refresh(10, 3, NULL, 0);
 
@@ -33,9 +33,11 @@ int main() {
     for (int loop_n = 0;; loop_n++) {
         ss__refresh();
 
-        // if (loop_n % LOOP_SONAR_REFRESH_EVERY_N_LOOPS == 0) {
-        //     ss__set_value(sonar__read());
-        // }
+        if ((loop_n % 10) == 0) {
+            leds__green();
+            ss__set_value(sonar__read());
+            leds__off();
+        }
     }
 
     return 0;

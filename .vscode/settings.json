@@ -11,6 +11,7 @@
         "i2c.h": "c",
         "power.h": "c",
         "oled.h": "c",
-        "sonar.h": "c"
+        "sonar.h": "c",
+        "pinio.h": "c"
     },
 }
