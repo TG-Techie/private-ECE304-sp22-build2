@@ -2,17 +2,15 @@
 // interface
 #include "tracker.h"
 
-#include "HardwareSerial.h"
+// #include "HardwareSerial.h"
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 // file-only define for clarity
 #define N_SAMPLES_WITH_NEW ((int)(TRACKER_N_ROLLING_SAMPLES + 1))
 
-namespace track {
 
-
-char* status_to_string(status_t stat) {
+char* track__status_to_string(track__status_t stat) {
     switch (stat) {
         case too_close:
             static const char too_close[] = "too_close";
@@ -33,11 +31,11 @@ char* status_to_string(status_t stat) {
 }
 
 // -- internal prototypes --
-status_t _get_status(inches_t dist);
+track__status_t _get_status(inches_t dist);
 void _insert_possible_new_closest(inches_t* events, inches_t closest);
 
-// -- internal cuntion --
-void _reset_state(tracker_t* tracker) {
+// -- internal funtion --
+void _reset_state(track__tracker_t* tracker) {
     tracker->status         = out_of_range;
     tracker->closest        = LARGE_DIST;
     tracker->entered_unsafe = false;
@@ -46,7 +44,7 @@ void _reset_state(tracker_t* tracker) {
 
 // ------ extern functions ------
 
-void start_interaction(tracker_t* tracker) {
+void start_interaction(track__tracker_t* tracker) {
     // do nothing if already in interaction
     if (tracker->in_interaction) return;
 
@@ -56,17 +54,17 @@ void start_interaction(tracker_t* tracker) {
     tracker->in_interaction = true;
 }
 
-void mark_interaction_unsafe(tracker_t* tracker) {
-    Serial.println("mark_interaction_unsafe(...)");
+void mark_interaction_unsafe(track__tracker_t* tracker) {
+    debug_println("mark_interaction_unsafe(...)");
     // increase the unsafe event count and mark the interaction as unsafe
     if (!(tracker->entered_unsafe)) {
-        Serial.println(" is marked as unsafe");
+        debug_println(" is marked as unsafe");
         tracker->entered_unsafe = true;
         tracker->unsafe_event_count += 1;
     }
 }
 
-void end_interaction(tracker_t* tracker) {
+void end_interaction(track__tracker_t* tracker) {
     // do nothing if not in interaction
     if (!(tracker->in_interaction)) return;
 
@@ -89,8 +87,8 @@ void end_interaction(tracker_t* tracker) {
 
 // -- external implementation --
 
-void init(tracker_t* const tracker) {
-    debug_print("track::init(...)... ");
+void track__init(track__tracker_t* const tracker) {
+    debug_print("track__init(...)... ");
     /* -- state -- */
     _reset_state(tracker);
     /* -- over all time -- */
@@ -106,11 +104,11 @@ void init(tracker_t* const tracker) {
     debug_println("done");
 }
 
-inches_t new_dist(tracker_t* tracker, inches_t dist) {
+inches_t new_dist(track__tracker_t* tracker, inches_t dist) {
     // --- data detection ---
-    status_t prev_stat = tracker->status;
+    track__status_t prev_stat = tracker->status;
 
-    status_t stat = _get_status(dist);
+    track__status_t stat = _get_status(dist);
     debug_print("tracker -> stat = ");
     debug_println(status_to_string(stat));
 
@@ -137,14 +135,6 @@ inches_t new_dist(tracker_t* tracker, inches_t dist) {
      * - from too_far, pass
      */
 
-    // if (stat == prev_stat)
-    //     ;  // no change
-    // else if (stat == too_close && (prev_stat >= too_far))
-    //     start_interaction(tracker);
-    //     mark_interaction_unsafe(tracker);
-    // else if (stat == too_close && prev_stat == just_right)
-    //     start_interaction(tracker);
-
     switch (stat) {
         case too_close:
             if (prev_stat >= too_far) start_interaction(tracker);
@@ -169,28 +159,6 @@ inches_t new_dist(tracker_t* tracker, inches_t dist) {
             break;
     }
 
-    // // no movement: same zone
-    // if (prev_stat == stat)
-    //     /* no movement, no action */;
-    // else if (stat == just_right && prev_stat == too_far)
-    //     start_interaction(tracker);
-    // else if (stat == too_close && prev_stat == just_right)
-    //     mark_interaction_unsafe(tracker);
-    // else if (stat == just_right && prev_stat == too_close)
-    //     /* exiting unsafe */;
-    // else if ((stat == too_far ) || stat == out_of_range /* && <any other previous state> */)
-    //     end_interaction(tracker);
-    // else {
-    //     /* unknown state transition */
-    //     if (Serial_debug) {
-    //         debug_print("unknown state transition ");
-    //         debug_print(status_to_string(prev_stat));
-    //         debug_print(" -> ");
-    //         debug_println(status_to_string(stat));
-    //     }
-    // }
-
-
     // set the closest for this engagment to min of closest and avg
     tracker->closest = min(tracker->closest, dist);
 
@@ -201,7 +169,7 @@ inches_t new_dist(tracker_t* tracker, inches_t dist) {
 
 /* private */
 
-status_t _get_status(inches_t dist) {  // TODO: why is this erroring?
+track__status_t _get_status(inches_t dist) {  // TODO: why is this erroring?
 
     if (dist >= OUT_OF_RANGE_THRESHOLD)
         return out_of_range;
@@ -244,8 +212,6 @@ void _insert_possible_new_closest(inches_t* events, inches_t closest) {
         }
     }
 }
-
-}  // namespace track
 
 
 #undef N_SAMPLES_WITH_NEW

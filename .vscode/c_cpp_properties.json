@@ -3,7 +3,7 @@
         {
             "name": "Arduino",
             "includePath": [
-                "${workspaceRoot}/ece304-sp22-build1/",
+                "${workspaceRoot}/src/",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/EEPROM/",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/SPI/",

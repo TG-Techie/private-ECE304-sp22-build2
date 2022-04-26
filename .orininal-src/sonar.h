@@ -13,4 +13,6 @@
 void sonar__init();
 
 /// @brief Read the sonar sensor
-inches_t sonar__read();
+float sonar__read();
+
+float sonar__read_raw_cm();

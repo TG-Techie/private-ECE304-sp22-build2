@@ -6,23 +6,19 @@
 // -- OMG !! DO NOT CHANGE THIS VALUE !! --
 #define TRACKER_N_KEPT_UNSAFE_INTERACTION_DISTANCES 4
 
-namespace track {
-
-
 typedef enum {
     too_close    = 1,
     just_right   = 2,
     too_far      = 3,
     out_of_range = 4,
-} status_t;
+} track__status_t;
 
-
-char* status_to_string(status_t stat);
+char* track__status_to_string(track__status_t stat);
 
 
 typedef struct {
     /* -- state -- */
-    status_t status;
+    track__status_t status;
     inches_t closest;
     bool entered_unsafe;
     bool in_interaction;
@@ -30,14 +26,12 @@ typedef struct {
     uint8_t total_event_count;
     uint8_t unsafe_event_count;
     inches_t closest_events[TRACKER_N_KEPT_UNSAFE_INTERACTION_DISTANCES];
-} tracker_t;
+} track__tracker_t;
 
-void init(tracker_t* tracker);
+void track__init(track__tracker_t** tracker);
 
 /// @brief send a new distance reading to the tracker
 /// @param tracker the tracker to update (pointer)
-/// @param new_dist the new, raw distance reading
+/// @param track__new_dist the new, raw distance reading
 /// @return the smoothed distance
-inches_t new_dist(tracker_t* tracker, inches_t dist);
-
-}  // namespace track
+inches_t track__new_dist(track__tracker_t* tracker, inches_t dist);

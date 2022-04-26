@@ -3,7 +3,10 @@
 
 #include "shared.h"
 
-void power__init();
-void power__wait_for_wake();
+namespace power {
+void init();
+void wait_for_wake();
 
 // FUTURE: void sleep();
+
+}  // namespace power

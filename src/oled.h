@@ -1,14 +1,14 @@
-#pragma once  // include guard
 
 #include "shared.h"
-#include "tracker.h"
 
-namespace oled {
-void init();
+#pragma once  // include guard
 
-void update(track::tracker_t* tracker);
+// TODO(jay) add track functionality back to this
+// #include "tracker.h"
+
+void oled__init();
+
+// void oled__update(track__tracker_t* tracker);
 
 
-// void refresh(int total_count, int unsafe_count, inches_t* distances, int len);
-
-}  // namespace oled
+void oled__refresh(int total_count, int unsafe_count, inches_t* distances, int len);

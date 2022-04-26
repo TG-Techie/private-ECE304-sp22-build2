@@ -19,17 +19,5 @@
       "focus": true,
       "command": "make clean;"
     }
-    // {
-    //   "name": "build",
-    //   "description": "This is a description",
-    //   "focus": true,
-    //   "command": "arduino-cli compile ece304-sp22-build1/ -b arduino:avr:uno ;" //  if [ $? -eq 0 ]; then; exit; fi;"
-    // },
-    // {
-    //   "name": "upload",
-    //   "description": "This is a description",
-    //   "focus": true,
-    //   "command": "arduino-cli upload ece304-sp22-build1/; if [ $? -eq 0 ]; " //then; exit; fi;"
-    // }
   ]
 }
