@@ -12,6 +12,9 @@
         "power.h": "c",
         "oled.h": "c",
         "sonar.h": "c",
-        "pinio.h": "c"
+        "pinio.h": "c",
+        "interrupt.h": "c",
+        "smoothing.h": "c",
+        "tracker.h": "c"
     },
 }

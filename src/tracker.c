@@ -1,5 +1,6 @@
 
 // interface
+#include "config.h"
 #include "tracker.h"
 
 // #include "HardwareSerial.h"
@@ -7,87 +8,40 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 // file-only define for clarity
-#define N_SAMPLES_WITH_NEW ((int)(TRACKER_N_ROLLING_SAMPLES + 1))
+#define TRACKER_N_ROLLING_SAMPLES 4
+#define N_SAMPLES_WITH_NEW        ((int)(TRACKER_N_ROLLING_SAMPLES + 1))
 
 
 char* track__status_to_string(track__status_t stat) {
     switch (stat) {
         case too_close:
-            static const char too_close[] = "too_close";
-            return (char*)too_close;
+            return (char*)_too_close_str;
         case just_right:
-            static const char just_right[] = "just_right";
-            return (char*)just_right;
+            return (char*)_just_right_str;
         case too_far:
-            static const char too_far[] = "too_far";
-            return (char*)too_far;
+            return (char*)_too_far_str;
         case out_of_range:
-            static const char out_of_range[] = "out_of_range";
-            return (char*)out_of_range;
+            return (char*)_out_of_range_str;
         default:
-            static const char unknown[] = "unknown";
-            return (char*)unknown;
+            return (char*)_unknown_str;
     }
 }
 
 // -- internal prototypes --
+#if ENABLE_SMOOTHING == ON
+void end_interaction(track__tracker_t* tracker);
+void mark_interaction_unsafe(track__tracker_t* tracker);
+void start_interaction(track__tracker_t* tracker);
+void _reset_state(track__tracker_t* tracker);
 track__status_t _get_status(inches_t dist);
 void _insert_possible_new_closest(inches_t* events, inches_t closest);
-
-// -- internal funtion --
-void _reset_state(track__tracker_t* tracker) {
-    tracker->status         = out_of_range;
-    tracker->closest        = LARGE_DIST;
-    tracker->entered_unsafe = false;
-    tracker->in_interaction = false;
-}
-
-// ------ extern functions ------
-
-void start_interaction(track__tracker_t* tracker) {
-    // do nothing if already in interaction
-    if (tracker->in_interaction) return;
-
-    // else start
-    debug_println("start_interaction(...)");
-    tracker->total_event_count += 1;
-    tracker->in_interaction = true;
-}
-
-void mark_interaction_unsafe(track__tracker_t* tracker) {
-    debug_println("mark_interaction_unsafe(...)");
-    // increase the unsafe event count and mark the interaction as unsafe
-    if (!(tracker->entered_unsafe)) {
-        debug_println(" is marked as unsafe");
-        tracker->entered_unsafe = true;
-        tracker->unsafe_event_count += 1;
-    }
-}
-
-void end_interaction(track__tracker_t* tracker) {
-    // do nothing if not in interaction
-    if (!(tracker->in_interaction)) return;
-
-    // else end
-
-    debug_println("end_interaction(...)");
-
-    const inches_t closest = tracker->closest;
-    inches_t* events       = tracker->closest_events;
-
-    if (tracker->entered_unsafe) {
-        // TODO: insert new closest if is unsafe and lower than what is there
-        _insert_possible_new_closest(events, closest);
-    }
-
-    tracker->in_interaction = false;
-
-    _reset_state(tracker);
-}
-
+#endif
 // -- external implementation --
 
 void track__init(track__tracker_t* const tracker) {
+#if ENABLE_TRACKING == OFF
+    return;
+#else
     debug_print("track__init(...)... ");
     /* -- state -- */
     _reset_state(tracker);
@@ -101,10 +55,14 @@ void track__init(track__tracker_t* const tracker) {
     tracker->closest_events[1] = TOMBSTONE_DIST;
     tracker->closest_events[2] = TOMBSTONE_DIST;
     tracker->closest_events[3] = TOMBSTONE_DIST;
-    debug_println("done");
+    // debug_println("done");
+#endif
 }
 
 inches_t track__new_dist(track__tracker_t* tracker, inches_t dist) {
+#if ENABLE_TRACKING == OFF
+    return dist;
+#else
     // --- data detection ---
     track__status_t prev_stat = tracker->status;
 
@@ -163,9 +121,63 @@ inches_t track__new_dist(track__tracker_t* tracker, inches_t dist) {
     tracker->closest = min(tracker->closest, dist);
 
     return dist;
+#endif
 }
 
+#if ENABLE_TRACKING == ON
 // --- internal implementation ---
+
+
+// -- internal funtion --
+void _reset_state(track__tracker_t* tracker) {
+    tracker->status         = out_of_range;
+    tracker->closest        = LARGE_DIST;
+    tracker->entered_unsafe = false;
+    tracker->in_interaction = false;
+}
+
+// ------ extern functions ------
+
+void start_interaction(track__tracker_t* tracker) {
+    // do nothing if already in interaction
+    if (tracker->in_interaction) return;
+
+    // else start
+    debug_println("start_interaction(...)");
+    tracker->total_event_count += 1;
+    tracker->in_interaction = true;
+}
+
+void mark_interaction_unsafe(track__tracker_t* tracker) {
+    debug_println("mark_interaction_unsafe(...)");
+    // increase the unsafe event count and mark the interaction as unsafe
+    if (!(tracker->entered_unsafe)) {
+        debug_println(" is marked as unsafe");
+        tracker->entered_unsafe = true;
+        tracker->unsafe_event_count += 1;
+    }
+}
+
+void end_interaction(track__tracker_t* tracker) {
+    // do nothing if not in interaction
+    if (!(tracker->in_interaction)) return;
+
+    // else end
+
+    debug_println("end_interaction(...)");
+
+    const inches_t closest = tracker->closest;
+    inches_t* events       = tracker->closest_events;
+
+    if (tracker->entered_unsafe) {
+        // TODO: insert new closest if is unsafe and lower than what is there
+        _insert_possible_new_closest(events, closest);
+    }
+
+    tracker->in_interaction = false;
+
+    _reset_state(tracker);
+}
 
 /* private */
 
@@ -212,6 +224,7 @@ void _insert_possible_new_closest(inches_t* events, inches_t closest) {
         }
     }
 }
+#endif
 
-
+#undef min
 #undef N_SAMPLES_WITH_NEW

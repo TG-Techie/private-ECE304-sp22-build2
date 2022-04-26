@@ -5,19 +5,19 @@
       "name": "build",
       "description": "This is a description",
       "focus": true,
-      "command": "make build;"
+      "command": "make build && sleep 2 && exit"
     },
     {
       "name": "upload",
       "description": "This is a description",
       "focus": true,
-      "command": "make flash;"
+      "command": "make flash && sleep 2 && exit"
     },
     {
       "name": "clean",
       "description": "This is a description",
       "focus": true,
-      "command": "make clean;"
+      "command": "make clean && sleep 2 && exit"
     }
   ]
 }

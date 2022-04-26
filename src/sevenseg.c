@@ -69,20 +69,23 @@ void disp3Digits(unsigned char d1, unsigned char d2, unsigned char d3) {
         0b01100111,  // 9
     };
 
-    for (unsigned char i = 0; i < 5; i++) {  // this code will refresh at 5*REFRESH_DELAY ms
+    for (unsigned char i = 0; i < 5; i++) {
+        // this code will refresh at 5 * REFRESH_DELAY ms
 
         PORTD = ledDigits[d1];              // feet digit
         PORTB = (1 << DIG3) | (1 << DIG4);  // enable DIG2, disable DIG3 & DIG4, 0000 0011
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
 
 
         PORTD = ledDigits[d2];              // first inches digit
         PORTB = (1 << DIG2) | (1 << DIG4);  // enable DIG3, disable DIG2,DIG4  0000 0101
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
 
         PORTD = ledDigits[d3];              // second inches digit
         PORTB = (1 << DIG2) | (1 << DIG3);  // enable DIG4, disable DIG2,DIG3 0000 0110
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
+
+        PORTD = 0;  // disable all digits
     }
     return;
 }
@@ -109,11 +112,11 @@ void disp_none() {
 
     for (unsigned char i = 0; i < 5; i++) {  // this code will refresh at 5*REFRESH_DELAY ms
         PORTB = (1 << DIG3) | (1 << DIG4);
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
         PORTB = (1 << DIG2) | (1 << DIG4);
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
         PORTB = (1 << DIG2) | (1 << DIG3);
-        _delay_ms(REFRESH_DELAY);
+        _delay_ms(SEVENSEG_REFRESH_DELAY);
     }
     PORTB = 0;
 }

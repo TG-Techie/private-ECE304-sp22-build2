@@ -7,38 +7,72 @@
 #include "oled.h"
 #include "power.h"
 #include "sonar.h"
+#include "smoothing.h"
+#include "tracker.h"
 
+// --- setup loop vars ---
+track__status_t last_status = out_of_range;
+smooth__smoother_t smoother;
+track__tracker_t tracker;
+
+// track__init(&tracker);
 
 /* ---------- setup ---------- */
-int main() {
+void main() {
     // --- init oled and power for life signs then sleep/wake ---
     oled__init();
     power__init();
     power__wait_for_wake();
 
+    // --- init global vars ---
+    smooth__init(&smoother);
+    // track__init(&tracker);
+
     // --- initialize all modules ---
     leds__init();
     ss__init();
     sonar__init();
-    // track__init();
 
-
-    // --- test values ---
-    ss__set_value(0);
+    // --- start ---
     leds__both();
-    oled__refresh(10, 3, NULL, 0);
 
-
-    // --- shared loop variables ---
+    // --- main loop ---
     for (int loop_n = 0;; loop_n++) {
         ss__refresh();
 
-        if ((loop_n % 10) == 0) {
-            leds__green();
-            ss__set_value(sonar__read());
-            leds__off();
+
+        // only refresh sornar every n loops
+        if (0 == (loop_n % LOOP_SONAR_REFRESH_EVERY_N_LOOPS)) {
+            inches_t raw_dist = sonar__read();
+
+            // --- handle invalid distance ---
+            // here we continue and skip it, but we printed in Arduino
+            if (raw_dist == INVALID_SONAR_READ) {
+                // ss__set_value_none();
+                continue;
+            }
+
+            // --- filter the data
+            // add to the smoother list
+            smooth__insert(&smoother, raw_dist);
+            inches_t dist = smooth__get_smoothed(&smoother);
+
+
+            // --- register with the tracking system ---
+            // track__new_dist(&tracker, dist);
+
+            // update outputs
+            ss__set_value(dist);
+
+            // update the oled
+            // if ((tracker.status != last_status) || FORCE_OLED_REFRESH) {
+            //     oled__refresh(
+            //         tracker.total_event_count,
+            //         tracker.unsafe_event_count,
+            //         tracker.closest_events,
+            //         4);
+            //     last_status = tracker.status;
+            // }
         }
     }
-
-    return 0;
 }

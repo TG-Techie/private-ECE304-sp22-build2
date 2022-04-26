@@ -6,6 +6,14 @@
 // -- OMG !! DO NOT CHANGE THIS VALUE !! --
 #define TRACKER_N_KEPT_UNSAFE_INTERACTION_DISTANCES 4
 
+
+static const char _too_close_str[]    = "too_close";
+static const char _just_right_str[]   = "just_right";
+static const char _too_far_str[]      = "too_far";
+static const char _out_of_range_str[] = "out_of_range";
+static const char _unknown_str[]      = "unknown";
+
+
 typedef enum {
     too_close    = 1,
     just_right   = 2,
@@ -28,7 +36,7 @@ typedef struct {
     inches_t closest_events[TRACKER_N_KEPT_UNSAFE_INTERACTION_DISTANCES];
 } track__tracker_t;
 
-void track__init(track__tracker_t** tracker);
+void track__init(track__tracker_t* tracker);
 
 /// @brief send a new distance reading to the tracker
 /// @param tracker the tracker to update (pointer)

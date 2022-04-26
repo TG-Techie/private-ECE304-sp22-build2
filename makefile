@@ -19,7 +19,7 @@ main.hex:	clean	main.elf
 	avr-size --format=avr --mcu=atmega328p main.elf
 
 main.elf:
-	avr-gcc -Wall -O3 -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
+	avr-gcc -Werror -Wno-main -O3 -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
 
 
 flash:	build
