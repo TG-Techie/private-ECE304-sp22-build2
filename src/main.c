@@ -59,20 +59,20 @@ void main() {
 
 
             // --- register with the tracking system ---
-            // track__new_dist(&tracker, dist);
+            track__new_dist(&tracker, dist);
 
             // update outputs
             ss__set_value(dist);
 
             // update the oled
-            // if ((tracker.status != last_status) || FORCE_OLED_REFRESH) {
-            //     oled__refresh(
-            //         tracker.total_event_count,
-            //         tracker.unsafe_event_count,
-            //         tracker.closest_events,
-            //         4);
-            //     last_status = tracker.status;
-            // }
+            if ((tracker.status != last_status) || FORCE_OLED_REFRESH) {
+                oled__refresh(
+                    tracker.total_event_count,
+                    tracker.unsafe_event_count,
+                    tracker.closest_events,
+                    4);
+                last_status = tracker.status;
+            }
         }
     }
 }
