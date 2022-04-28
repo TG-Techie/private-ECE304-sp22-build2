@@ -1,0 +1,53 @@
+#include "shared.h"
+#include "leds.h"
+#include <avr/io.h>
+#define TRIG 7  // PORTD
+#define ECHO 2  // PORTC
+
+
+void sonar__init(void) {
+    // setup the pins
+    DDRD |= (1 << TRIG);
+    PORTD &= ~(1 << TRIG);  // set low
+    DDRC &= ~(1 << ECHO);
+
+    // setup the timer
+    TCCR0A = 0;     // timer mode - normal
+    TCCR0B = 0x05;  // 1024 prescaler
+}
+
+inches_t sonar__read() {
+    unsigned int timeToRisingEdge, timeToFallingEdge;
+    unsigned int pulseWidth;
+
+    PORTD &= ~(1 << TRIG);
+    _delay_us(5);
+    PORTD |= 1 << TRIG;
+    _delay_us(10);
+    PORTD &= ~(1 << TRIG);  // TRIG pin
+
+    // 5 usec pre-TRIG
+    // 10 us pulse
+    // to ultrasound
+    TCNT0 = 0;
+
+    leds__green();
+    while ((PORTC & (1 << ECHO)) == 0) {
+        // wait till ECHO goes high
+    }
+
+    timeToRisingEdge = TCNT0;
+
+    leds__red();
+    while ((PORTC & (1 << ECHO)) != 0) {
+        // wait till ECHO1 goes low
+    }
+
+
+    timeToFallingEdge = TCNT0;
+
+    pulseWidth     = timeToFallingEdge - timeToRisingEdge;
+    inches_t range = ((float)pulseWidth * 1.098 / 2.54);  // one way distance to target in cm
+    leds__both();
+    return range;
+}

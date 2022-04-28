@@ -1,0 +1,34 @@
+#define TRIG PB0
+#define ECHO PB1
+#include <avr/io.h>
+// (and other includes)
+int main(void) {
+    unsigned int timeToRisingEdge, timeToFallingEdge;
+    unsigned int pulseWidth;
+    float range;
+
+    timer0_init();
+
+    while (1) {
+        PORTB &= ~(1 << TRIG);
+        _delay_us(5);
+        PORTB |= 1 << TRIG;
+        _delay_us(10);
+        PORTB &= ~(1 << TRIG);  // TRIG pin
+        TCNT0 = 0;
+        // 5 usec pre-TRIG
+        // 10 us pulse
+        // to ultrasound
+        while ((PINB & (1 << ECHO)) == 0)
+            ;  // wait till ECHO goes high timeToRisingEdge = TCNT0;
+        while (!(PINB & (1 << ECHO)) == 0)
+            ;  // wait till ECHO1 goes low timeToFallingEdge = TCNT0;
+        pulseWidth = timeToFallingEdge - timeToRisingEdge;
+        range      = pulseWidth * 1.098;  // one way distance to target in cm
+        send_to_monitor();
+    }
+}
+void timer0_init(void) {
+    TCCR0A = 0;     // timer mode - normal
+    TCCR0B = 0x05;  // 1024 prescaler
+}

@@ -36,6 +36,8 @@ void main() {
     // --- start ---
     leds__both();
 
+    ss__set_value(12 * 1 + 1);
+
     // --- main loop ---
     for (int loop_n = 0;; loop_n++) {
         ss__refresh();

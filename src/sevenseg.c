@@ -24,8 +24,8 @@ bool _show_num        = false;
 void ss__init() {
 #if ENABLE_SEVENSEG == ON
     debug_print("seven_seg::init()... ");
-    DDRD = 0xFF;                                   // 7segment pins
-    DDRB = DDRB | (1 << 2) | (1 << 1) | (1 << 0);  // digit enables
+    DDRD |= 0x7F;                            // 7segment pins
+    DDRB |= (1 << 2) | (1 << 1) | (1 << 0);  // digit enables
     debug_println("done");
 #endif
 }
