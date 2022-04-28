@@ -66,6 +66,26 @@ void main() {
             // update outputs
             ss__set_value(dist);
 
+            switch (tracker.status) {
+                case out_of_range:
+                    leds__off();
+                    ss__set_value_none();
+                    break;
+                case too_far:
+                    leds__green();
+                    break;
+                case just_right:
+                    leds__off();
+                    break;
+                case too_close:
+                    leds__red();
+                    break;
+                default:
+                    leds__both();
+                    // ss__set_value_none();
+                    break;
+            }
+
             // update the oled
             if ((tracker.status != last_status) || FORCE_OLED_REFRESH) {
                 oled__refresh(

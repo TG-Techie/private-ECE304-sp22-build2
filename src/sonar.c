@@ -40,6 +40,9 @@ inches_t sonar__read() {
     // https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
     inches_t dist = ((inches_t)count) / 148;
 
+    // hack
+    dist *= 1.25;
+
     if (dist <= 2) {
         return INVALID_SONAR_READ;
     }
