@@ -6,7 +6,7 @@
 // --- feature flags ---
 #define ENABLE_LEDS      ON
 #define ENABLE_SEVENSEG  ON
-#define ENABLE_OLED      OFF
+#define ENABLE_OLED      ON
 #define ENABLE_POWER     OFF
 #define ENABLE_SMOOTHING ON
 #define ENABLE_TRACKING  ON
@@ -16,7 +16,7 @@
 
 // --- loop variables ---
 #define FORCE_OLED_REFRESH               OFF  // on/off
-#define LOOP_SONAR_REFRESH_EVERY_N_LOOPS 15
+#define LOOP_SONAR_REFRESH_EVERY_N_LOOPS 20
 
 // --- seven segment ---
 #define SEVENSEG_REFRESH_DELAY       100  // delay in ms for seven_seg refresh

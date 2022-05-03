@@ -99,14 +99,15 @@ void main() {  // w/ -Wno-main
             if (tracker.status == out_of_range) se__set_value_none();
 
             // update the oled
-            if ((tracker.status != last_status) || FORCE_OLED_REFRESH) {
+            if (((tracker.status != last_status) && (tracker.status == out_of_range))
+                || FORCE_OLED_REFRESH) {
                 oled__refresh(
                     tracker.total_event_count,
                     tracker.unsafe_event_count,
                     tracker.closest_events,
                     4);
-                last_status = tracker.status;
             }
+            last_status = tracker.status;
         }
     }
 }
