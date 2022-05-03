@@ -22,6 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+/**
+ * @file pinIO.h
+ * @brief Portable Pin IO functions to make gpio manupulation clearer.
+ * @note Compile with AT LEAST `-O1` optimization on as this library produces dead code intended
+ * to be optimized away
+ * @author Jonah "Jay" Y-M (@TG-Techie)
+ * @version 1.0
+ * @date 2020-02-24
+ */
 
 #pragma once
 

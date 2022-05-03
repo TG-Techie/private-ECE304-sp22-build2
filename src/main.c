@@ -1,19 +1,23 @@
+// --- shared / infra code ---
 #include "shared.h"
+// configurable feature flags used to toggle modules on and off
 #include "config.h"
 
-
-// #include "leds.h"
-#include "sevenseg.h"
-// #include "oled.h"
-// #include "power.h"
-// #include "sonar.h"
-// #include "smoothing.h"
-// #include "tracker.h"
-
-
+// --- pin allocations ---
+// Custom avr port wrapper and board pin mapping
 #include "pinIO.h"
 #include "board.h"
 
+// --- module imports ---
+#include "leds.h"
+#include "sevenseg.h"
+#include "oled.h"
+#include "power.h"
+#include "sonar.h"
+#include "smoothing.h"
+#include "tracker.h"
+
+// --- story / buisness logic ---
 
 void main() {
     // setDir(sevenSegPort, OUTPUT);
@@ -27,7 +31,7 @@ void main() {
     // }
 
     se__init();
-    se__set_value(12 * 9 + 10);
+    se__set_value(12 * 9 + 5);
 
     int value = 0;
     for (int16_t loop_num = 0;; loop_num++) {
@@ -44,7 +48,7 @@ void main() {
 // // track__init(&tracker);
 
 // /* ---------- setup ---------- */
-// void main() { // w/ -Wno-main
+// void main() {  // w/ -Wno-main
 //     // --- init oled and power for life signs then sleep/wake ---
 //     oled__init();
 //     power__init();

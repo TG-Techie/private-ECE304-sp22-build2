@@ -49,7 +49,7 @@ void disp3Digits(uint8_t ft, uint8_t in_tens, uint8_t in_ones) {
         // this code will refresh at 5 * REFRESH_DELAY us
 
         setOut(sevenSegPort, ledDigits[ft]);  // feet digit
-        setOut(digEnPort, ~(1 << 2));         // Yes, they are flipped
+        setOut(digEnPort, ~(1 << 0));         // Yes, they are flipped
         _delay_us(SEVENSEG_REFRESH_DELAY);
         setOut(digEnPort, 0x7);
 
@@ -60,7 +60,7 @@ void disp3Digits(uint8_t ft, uint8_t in_tens, uint8_t in_ones) {
         setOut(digEnPort, 0x7);
 
         setOut(sevenSegPort, ledDigits[in_ones]);  // ones digit
-        setOut(digEnPort, ~(1 << 0));
+        setOut(digEnPort, ~(1 << 2));
         _delay_us(SEVENSEG_REFRESH_DELAY);
         setOut(digEnPort, 0x7);  // turn off all digits
     }
