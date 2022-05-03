@@ -39,7 +39,9 @@
         "io.h": "c",
         "board.h": "c",
         "config.h": "c",
-        "power.h": "c"
+        "power.h": "c",
+        "leds.h": "c",
+        "sonar.h": "c"
     },
     // "C_Cpp.workspaceSymbols": "All",
     "C_Cpp.default.systemIncludePath": [

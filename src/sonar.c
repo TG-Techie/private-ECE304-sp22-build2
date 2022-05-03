@@ -15,8 +15,8 @@
 
 void sonar__init() {
     _delay_ms(100);
-    DDRD |= (1 << 7);
-    DDRB &= ~(1 << 0);
+    DDRB |= (1 << 0);
+    DDRD &= ~(1 << 7);
 }
 
 inches_t sonar__read() {
@@ -44,10 +44,8 @@ inches_t sonar__read() {
 
     // convert to inches,
     // https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
-    inches_t dist = ((inches_t)count) / 148;
-
-    // hack
-    dist *= 1.25;
+    inches_t dist = ((inches_t)count) / 148.0;
+    dist *= 24 + 2;  // 1.25;
 
     if (dist <= 2) {
         return INVALID_SONAR_READ;

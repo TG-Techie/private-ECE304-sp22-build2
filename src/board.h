@@ -7,5 +7,9 @@
 #define digEnPort pinIO_range(C, 2, 0)
 
 // --- sonar ---
-#define echoPin pinIO_pin(D, 7)
-#define trigPin pinIO_pin(B, 0)
+#define echoPin pinIO_pin(B, 0)
+#define trigPin pinIO_pin(D, 7)
+
+// --- leds ---
+#define greenLedPin pinIO_pin(B, 1)  // how did copilot predict these twp pins !?
+#define redLedPin   pinIO_pin(B, 2)

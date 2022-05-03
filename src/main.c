@@ -59,18 +59,16 @@ void main() {  // w/ -Wno-main
 
     // --- init global vars ---
     smooth__init(&smoother);
-    // track__init(&tracker);
+    track__init(&tracker);
 
     // --- initialize all modules ---
     leds__init();
     se__init();
     sonar__init();
 
-    // --- start ---
+    // --- start / test outputs ---
     leds__both();
-
     se__set_value(12 * 5 + 1);
-
 
     // --- main loop ---
     for (int loop_n = 0;; loop_n++) {

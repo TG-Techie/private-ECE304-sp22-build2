@@ -43,9 +43,10 @@ void disp3Digits(uint8_t ft, uint8_t in_tens, uint8_t in_ones) {
         0b00000111,  // 7
         0b01111111,  // 8
         0b01100111,  // 9
+        0b00001001,  // top and bottom segments (a and d)
     };
 
-    for (uint8_t i = 0; i < 5; i++) {
+    for (int i = 0; i < SEVENSEG_REPEATS_PER_REFRESH; i++) {
         // this code will refresh at 5 * REFRESH_DELAY us
 
         setOut(sevenSegPort, ledDigits[ft]);  // feet digit
@@ -69,10 +70,11 @@ void disp3Digits(uint8_t ft, uint8_t in_tens, uint8_t in_ones) {
 void disp_none() {
     setOut(sevenSegPort, 0x40);  // "-"
 
-    for (uint8_t i = 0; i < 5; i++) {  // this code will refresh at 5*REFRESH_DELAY ms
+    for (int i = 0; i < SEVENSEG_REPEATS_PER_REFRESH; i++) {
+        // this code will refresh at 5*REFRESH_DELAY ms
         setOut(digEnPort, ~(1 << 2));
         _delay_us(SEVENSEG_REFRESH_DELAY);
-        setOut(digEnPort, ~(1 << 0));
+        setOut(digEnPort, ~(1 << 1));
         _delay_us(SEVENSEG_REFRESH_DELAY);
         setOut(digEnPort, ~(1 << 0));
         _delay_us(SEVENSEG_REFRESH_DELAY);
@@ -96,7 +98,7 @@ void se__set_value_none() {
 
 void se__refresh() {
 #if ENABLE_SEVENSEG == ON
-    if (!_show_num)
+    if (!_show_num || (_num_to_show > 9 * 12))
         disp_none();
     else {
         uint8_t num = _num_to_show;
