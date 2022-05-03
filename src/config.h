@@ -4,12 +4,12 @@
 #define ON  1
 
 // --- feature flags ---
-#define ENABLE_LEDS      ON
+#define ENABLE_LEDS      OFF
 #define ENABLE_SEVENSEG  ON
-#define ENABLE_OLED      ON
-#define ENABLE_POWER     ON
-#define ENABLE_SMOOTHING ON
-#define ENABLE_TRACKING  ON
+#define ENABLE_OLED      OFF
+#define ENABLE_POWER     OFF
+#define ENABLE_SMOOTHING OFF
+#define ENABLE_TRACKING  OFF
 
 
 // --- loop variables ---
@@ -17,7 +17,7 @@
 #define LOOP_SONAR_REFRESH_EVERY_N_LOOPS 5
 
 // --- seven segment ---
-#define SEVENSEG_REFRESH_DELAY 5  // delay in ms for seven_seg refresh
+#define SEVENSEG_REFRESH_DELAY 100  // delay in ms for seven_seg refresh
 
 // --- tracker variables ---
 #define JUST_RIGHT_THRESHOLD   (inches_t)(5 * 12)       // inches

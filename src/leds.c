@@ -1,6 +1,7 @@
 /* leds.c */
 
 #include "leds.h"
+#include "tracker.h"
 #include "config.h"
 
 /*
@@ -10,6 +11,27 @@
 
 #define RED_PINMASK   (1 << 1)
 #define GREEN_PINMASK (1 << 0)
+
+void leds__setstatus_from(track__status_t status) {
+    // update outputs
+    switch (status) {
+        case out_of_range:
+            leds__off();
+            break;
+        case too_far:
+            leds__green();
+            break;
+        case just_right:
+            leds__off();
+            break;
+        case too_close:
+            leds__red();
+            break;
+        default:
+            leds__both();
+            break;
+    }
+}
 
 
 void leds__init() {

@@ -3,18 +3,48 @@
 // These have precedence over the default associations of the languages 
 // installed.
 {
+    // "files.associations": {
+    //     "SConstruct": "python",
+    //     "leds.h": "c",
+    //     "delay.h": "c",
+    //     "shared.h": "c",
+    //     "i2c.h": "c",
+    //     "power.h": "c",
+    //     "oled.h": "c",
+    //     "sonar.h": "c",
+    //     "pinio.h": "c",
+    //     "interrupt.h": "c",
+    //     "smoothing.h": "c",
+    //     "tracker.h": "c",
+    //     "sevenseg.h": "c",
+    //     "io.h": "c"
+    // },
+    "C_Cpp.default.includePath": [
+        "${workspaceRoot}/src/",
+        "${workspaceRoot}/libs/",
+        "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/",
+    ],
+    "C_Cpp.default.defines": [
+        "__AVR_ATmega328P__"
+    ],
+    // "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "files.associations": {
         "SConstruct": "python",
-        "leds.h": "c",
-        "delay.h": "c",
         "shared.h": "c",
-        "i2c.h": "c",
-        "power.h": "c",
-        "oled.h": "c",
-        "sonar.h": "c",
-        "pinio.h": "c",
+        "sevenseg.h": "c",
+        "delay.h": "c",
         "interrupt.h": "c",
-        "smoothing.h": "c",
-        "tracker.h": "c"
+        "pinio.h": "c",
+        "stdint.h": "c",
+        "io.h": "c",
+        "board.h": "c",
+        "config.h": "c"
     },
+    // "C_Cpp.workspaceSymbols": "All",
+    "C_Cpp.default.systemIncludePath": [
+        "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
+    ],
+    // "C_Cpp.default.intelliSenseMode": "gcc-arm",
+    // // "C_Cpp.default.cStandard": "",
+    // // "C_Cpp.default.cppStandard": "",
 }

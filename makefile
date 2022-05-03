@@ -6,7 +6,7 @@
 #	3/30/22		D. McLaughlin	updated for use with Sparkfun Pocket Programmer
 
 # Specify the name of your source code here:
-SOURCEFILE = src/*.c
+SOURCEFILE = src/*.c libs/*.c
 # Use 1000000 for a new ATmega328P IC; use 16000000 for Arduino Uno
 CLOCKSPEED = 16000000	
 # Use usbtiny for the Sparkfun Pocket Programmer; Arduino for Arduino Uno
@@ -19,14 +19,14 @@ main.hex:	clean	main.elf
 	avr-size --format=avr --mcu=atmega328p main.elf
 
 main.elf:
-	avr-gcc -Werror -Wno-main -O3 -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
+	avr-gcc -O3 -Ilibs/ -Werror -Wno-main  -DF_CPU=$(CLOCKSPEED) -mmcu=atmega328p -o main.elf $(SOURCEFILE)
 
 
 flash:	build
 	avrdude -c $(PROGRAMMER) -p atmega328p -U flash:w:main.hex:i -C avrdude.conf
 
 erase:
-	avrdude -c $(PROGRAMMER) -p atmega328p -e -C avrdude.conf
+	avrdude -c $(PROGRAMMER) -p atmega328p  -e -C avrdude.conf
 
 clean:
 	- rm -f main.hex main.elf

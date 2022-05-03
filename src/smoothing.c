@@ -42,3 +42,9 @@ inches_t smooth__get_smoothed(smooth__smoother_t* smoother) {
     return (sum - highest - lowest) / (N_SMOOTHING_SAMPLES - 2);
 #endif
 }
+
+
+inches_t smooth(smooth__smoother_t* smoother, inches_t new_sample) {
+    smooth__insert(smoother, new_sample);
+    return smooth__get_smoothed(smoother);
+}

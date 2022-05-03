@@ -6,10 +6,10 @@
 
 typedef enum {
     none,
-} ss__none_t;
+} se__none_t;
 
-void ss__init();
+void se__init();
 
-void ss__refresh();
-void ss__set_value(inches_t);
-void ss__set_value_none();
+void se__refresh();
+void se__set_value(inches_t);
+void se__set_value_none();

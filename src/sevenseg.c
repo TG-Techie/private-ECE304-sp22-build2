@@ -1,6 +1,8 @@
 // interface
 #include "sevenseg.h"
 #include "config.h"
+#include "board.h"
+
 
 /* Illuminate 3 digits of the 4 digit 7 segment display
  * The 7 segments (a, b, c, d, e, f, g) correspond to ATmega328P pins D0-D7,
@@ -9,9 +11,10 @@
 #include "avr/io.h"
 #include "util/delay.h"
 
-#define DIG2 PB2  // enables DIG2. ATmega328P pin PB2/Arduino Uno pin 10
-#define DIG3 PB1  // enables DIG3. ATmega328P pin PB1/Arduino Uno pin 9
-#define DIG4 PB0  // enables DIG4. ATmega328P pin PB0/Arduino Uno pin 8
+// #define DIG2 PB2  // enables DIG2. ATmega328P pin PB2/Arduino Uno pin 10
+// #define DIG3 PB1  // enables DIG3. ATmega328P pin PB1/Arduino Uno pin 9
+// #define DIG4 PB0  // enables DIG4. ATmega328P pin PB0/Arduino Uno pin 8
+
 
 // -- prototypes --
 void disp_dist(uint8_t in);
@@ -21,42 +24,15 @@ void disp_none();
 inches_t _num_to_show = 0;
 bool _show_num        = false;
 
-void ss__init() {
+void se__init() {
 #if ENABLE_SEVENSEG == ON
-    debug_print("seven_seg::init()... ");
-    DDRD |= 0x7F;                            // 7segment pins
-    DDRB |= (1 << 2) | (1 << 1) | (1 << 0);  // digit enables
-    debug_println("done");
+    setDir(sevenSegPort, OUTPUT);
+    setDir(digEnPort, OUTPUT);
 #endif
 }
 
-
-void ss__set_value(inches_t num) {
-#if ENABLE_SEVENSEG == ON
-    _show_num    = true;
-    _num_to_show = num;
-#endif
-}
-
-void ss__set_value_none() {
-#if ENABLE_SEVENSEG == ON
-    _show_num = false;
-#endif
-}
-
-void ss__refresh() {
-#if ENABLE_SEVENSEG == ON
-    if (_show_num) {
-        disp_dist(_num_to_show);
-    } else {
-        disp_none();
-    }
-#endif
-}
-
-
-void disp3Digits(unsigned char d1, unsigned char d2, unsigned char d3) {
-    static const unsigned char ledDigits[] = {
+void disp3Digits(uint8_t ft, uint8_t in_tens, uint8_t in_ones) {
+    static const uint8_t ledDigits[] = {
         0b00111111,  // 0
         0b00000110,  // 1
         0b01011011,  // 2
@@ -69,54 +45,66 @@ void disp3Digits(unsigned char d1, unsigned char d2, unsigned char d3) {
         0b01100111,  // 9
     };
 
-    for (unsigned char i = 0; i < 5; i++) {
-        // this code will refresh at 5 * REFRESH_DELAY ms
+    for (uint8_t i = 0; i < 5; i++) {
+        // this code will refresh at 5 * REFRESH_DELAY us
 
-        PORTD = ledDigits[d1];              // feet digit
-        PORTB = (1 << DIG3) | (1 << DIG4);  // enable DIG2, disable DIG3 & DIG4, 0000 0011
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
+        setOut(sevenSegPort, ledDigits[ft]);  // feet digit
+        setOut(digEnPort, ~(1 << 2));         // Yes, they are flipped
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(digEnPort, 0x7);
 
 
-        PORTD = ledDigits[d2];              // first inches digit
-        PORTB = (1 << DIG2) | (1 << DIG4);  // enable DIG3, disable DIG2,DIG4  0000 0101
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
+        setOut(sevenSegPort, ledDigits[in_tens]);  // tens digit
+        setOut(digEnPort, ~(1 << 1));
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(digEnPort, 0x7);
 
-        PORTD = ledDigits[d3];              // second inches digit
-        PORTB = (1 << DIG2) | (1 << DIG3);  // enable DIG4, disable DIG2,DIG3 0000 0110
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
-
-        PORTD = 0;  // disable all digits
+        setOut(sevenSegPort, ledDigits[in_ones]);  // ones digit
+        setOut(digEnPort, ~(1 << 0));
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(digEnPort, 0x7);  // turn off all digits
     }
-    return;
 }
-
-void disp_dist(uint8_t all_in) {
-    // Displays distance on the seven segment display, given inches (less than 10
-    // ft) it displays feet and inches in correct format
-    // unsigned char ft;   // distance in feet
-    // unsigned char in1;  // first digit of inches
-    // unsigned char in2;  // second digit of inches
-
-    // calculate and display digits
-    unsigned char ft  = all_in / 12;  // distance in feet
-    unsigned char in  = all_in % 12;  // total value of inches without feet
-    unsigned char in1 = in / 10;      // first digit of inches
-    unsigned char in2 = in % 10;      // second digit of inches
-
-    disp3Digits(in2, in1, ft);
-}
-
 
 void disp_none() {
-    PORTD = 1 << 6;
+    setOut(sevenSegPort, 0x40);  // "-"
 
-    for (unsigned char i = 0; i < 5; i++) {  // this code will refresh at 5*REFRESH_DELAY ms
-        PORTB = (1 << DIG3) | (1 << DIG4);
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
-        PORTB = (1 << DIG2) | (1 << DIG4);
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
-        PORTB = (1 << DIG2) | (1 << DIG3);
-        _delay_ms(SEVENSEG_REFRESH_DELAY);
+    for (uint8_t i = 0; i < 5; i++) {  // this code will refresh at 5*REFRESH_DELAY ms
+        setOut(digEnPort, ~(1 << 2));
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(digEnPort, ~(1 << 0));
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(digEnPort, ~(1 << 0));
+        _delay_us(SEVENSEG_REFRESH_DELAY);
+        setOut(sevenSegPort, 0x40);
     }
-    PORTB = 0;
+}
+
+
+void se__set_value(inches_t num) {
+#if ENABLE_SEVENSEG == ON
+    _show_num    = true;
+    _num_to_show = num;
+#endif
+}
+
+void se__set_value_none() {
+#if ENABLE_SEVENSEG == ON
+    _show_num = false;
+#endif
+}
+
+void se__refresh() {
+#if ENABLE_SEVENSEG == ON
+    if (!_show_num)
+        disp_none();
+    else {
+        uint8_t num = _num_to_show;
+        disp3Digits(
+            num / 12,       // feet
+            num % 12 / 10,  // tens of inches
+            num % 12 % 10   // ones of inches
+        );
+    }
+#endif
 }

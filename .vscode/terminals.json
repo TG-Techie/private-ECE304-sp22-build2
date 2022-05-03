@@ -3,19 +3,19 @@
   "terminals": [
     {
       "name": "build",
-      "description": "This is a description",
+      // "description": "This is a description",
       "focus": true,
       "command": "make build && sleep 2 && exit"
     },
     {
       "name": "upload",
-      "description": "This is a description",
+      // "description": "This is a description",
       "focus": true,
       "command": "notify -r 'make flash' && sleep 2 && exit"
     },
     {
       "name": "clean",
-      "description": "This is a description",
+      // "description": "This is a description",
       "focus": true,
       "command": "make clean && sleep 2 && exit"
     }

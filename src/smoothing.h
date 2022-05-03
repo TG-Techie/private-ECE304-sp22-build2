@@ -7,12 +7,13 @@
 
 /** @brief Initialize the smoother.
  *
- * Wrap kaz's algorithm in a struct to make it easier to manage.
+ * Wrap algorithm from discussion with friends in a struct to make it easier to manage.
  */
 typedef struct {
     int sample_dest;
     inches_t samples[N_SMOOTHING_SAMPLES];
 } smooth__smoother_t;
+
 
 /** @brief Initialize the smoother.
  *
@@ -23,6 +24,7 @@ typedef struct {
  * default values (zeros) and sets the sample_dest to 0.
  */
 void smooth__init(smooth__smoother_t* smoother);
+
 
 /** @brief Insert a new sample into the smoother.
  *
@@ -42,3 +44,13 @@ void smooth__insert(smooth__smoother_t* smoother, inches_t new_sample);
  * This currently uses an algorithm that drops the lowest and highest samples
  */
 inches_t smooth__get_smoothed(smooth__smoother_t* smoother);
+
+
+/** @brief add new and get the smoothed distance
+ *  @param smoother the smoother to use
+ *  @param new_sample the new sample to insert
+ *  @return the smoothed distance
+ *
+ * This currently uses an algorithm that drops the lowest and highest samples
+ */
+inches_t smooth(smooth__smoother_t* smoother, inches_t new_sample);

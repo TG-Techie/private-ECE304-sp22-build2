@@ -3,6 +3,7 @@
         {
             "name": "Arduino",
             "includePath": [
+                "${workspaceRoot}/libs/",
                 "${workspaceRoot}/src/",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/EEPROM/",
@@ -18,7 +19,7 @@
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
+                // "databaseFilename": ""
             },
             "defines": [
                 "_DEBUG",
@@ -33,11 +34,11 @@
             "compilerPath": "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64",
-            "macFrameworkPath": [
-                "/System/Library/Frameworks",
-                "/Library/Frameworks"
-            ]
+            "intelliSenseMode": "clang-arm",
+            // "macFrameworkPath": [
+            //     "/System/Library/Frameworks",
+            //     "/Library/Frameworks"
+            // ]
         }
     ],
     "version": 4
