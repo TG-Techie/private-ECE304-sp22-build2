@@ -61,7 +61,7 @@ typedef enum {
  *
  */
 #define pinIO_range(port_letter, msbno, lsbno) \
-    port_letter, (((2 << (msbno)) - 1) >> lsbno), lsbno, (msbno - lsnno + 1)
+    port_letter, (((1 << (msbno + 1)) - 1) >> lsbno), lsbno, (msbno - lsnno + 1)
 
 /**
  * @brief
